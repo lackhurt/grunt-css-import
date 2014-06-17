@@ -7,7 +7,7 @@
  */
 
 'use strict';
-var util = require('css-import-util');
+var util = require('./util');
 
 module.exports = function (grunt) {
 
