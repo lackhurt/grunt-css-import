@@ -29,32 +29,13 @@ module.exports = function (grunt) {
         },
 
         // Configuration to be run (and then tested).
-        /*css_import: {
-            default_options: {
-                options: {
-                },
-                files: {
-                    'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
-                }
-            },
-            custom_options: {
-                options: {
-                    separator: ': ',
-                    punctuation: ' !!!'
-                },
-                files: {
-                    'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
-                }
-            }
-        },*/
         css_import: {
             simple_concat: {
                 options: {
 
                 },
                 files: {
-                    'tmp/all.css': ['test/fixtures/style/all.css', 'test/fixtures/style/all1.css'],
-                    'tmp/all1.css': 'test/fixtures/style/all.css'
+                    'tmp/simple_concat/all.css': ['test/fixtures/style/all.css']
                 }
             }
         },
@@ -75,7 +56,7 @@ module.exports = function (grunt) {
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
     // plugin's task(s), then test the result.
-    grunt.registerTask('test', ['clean', 'css_import']);
+    grunt.registerTask('test', ['clean', 'css_import', 'nodeunit']);
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);

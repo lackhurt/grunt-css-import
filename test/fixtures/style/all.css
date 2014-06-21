@@ -1,0 +1,15 @@
+h1 {
+
+}
+@import "http://module/common/form.css";
+h2 {
+
+}
+
+@import "module/common/button.css";
+h3 {
+
+}
+@import "lib/fancybox/fancybox.css";
+@import "module/module_a/module_a.css";
+

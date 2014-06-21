@@ -1,0 +1,11 @@
+#fancybox-left, #fancybox-right {
+    position: absolute;
+    bottom: 0px;
+    height: 100%;
+    width: 35%;
+    cursor: pointer;
+    outline: none;
+    background: transparent url('images/blank.gif');
+    z-index: 10002;
+    display: none;
+}

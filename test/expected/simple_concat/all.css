@@ -1,0 +1,34 @@
+h1 {
+
+}
+
+@import "http://module/common/form.css";
+
+h2 {
+
+}
+
+
+.content .button{
+    display: inline-block;
+    color:#fff;
+    padding-left: 18px;
+    background: url('module/common/images/btn_all.gif') no-repeat 0px ;
+    padding-right:0;
+}
+
+h3 {
+
+}
+
+#fancybox-left, #fancybox-right {
+    position: absolute;
+    bottom: 0px;
+    height: 100%;
+    width: 35%;
+    cursor: pointer;
+    outline: none;
+    background: transparent url('lib/fancybox/images/blank.gif');
+    z-index: 10002;
+    display: none;
+}

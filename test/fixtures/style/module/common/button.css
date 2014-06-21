@@ -1,0 +1,7 @@
+.content .button{
+    display: inline-block;
+    color:#fff;
+    padding-left: 18px;
+    background: url(images/btn_all.gif) no-repeat 0px ;
+    padding-right:0;
+}

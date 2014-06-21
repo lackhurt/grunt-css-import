@@ -1,0 +1,14 @@
+
+.login_inputWrap{
+    background: url(/img/text.jpg) no-repeat 0px 0px;
+    display: inline-block;
+}
+
+.test {
+    background-image: url(/img/text.jpg);
+}
+
+.test-absolute-path {
+    background: url('http://test.com/test.jpg');
+
+}
