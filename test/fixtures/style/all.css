@@ -6,7 +6,7 @@ h2 {
 
 }
 
-@import "module/common/button.css";
+@import url("module/common/button.css");
 h3 {
 
 }

@@ -1,5 +1,6 @@
 var IMPORT_REG = /@import\s+[^;\n]+;/g;
 var PATH_REG = /@import\s+['"](.*)['"]/;
+var PATH_REG_WITH_URL = /@import\s+url\s*\(\s*['"](.*)['"]\s*\)/;
 var BACKGROUND_REG = /(background[^;\}]+)url\s*\(['"]?([^\)'"]*)['"]?\)([^;\n]*)[;\}]/g;
 
 /**
@@ -11,7 +12,17 @@ function parseExtraCss(content) {
     var matches = content.match(IMPORT_REG);
 
     return matches.map(function(importStr) {
-        return importStr.match(PATH_REG)[1];
+        var matches = importStr.match(PATH_REG);
+
+        if (!matches || !matches[1]) {
+            matches = importStr.match(PATH_REG_WITH_URL);
+        }
+
+        if (matches && matches[1]) {
+            return matches[1];
+        }
+
+        return null;
     });
 }
 
