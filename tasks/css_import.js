@@ -48,7 +48,7 @@ module.exports = function (grunt) {
 
                 var resultArr = [];
                 // 按照src顺序合并文件
-                for (var i = 0; i < Math.max(splitedCssContentArr.length, extraCssContentArr.length); i++) {
+                while (Math.max(splitedCssContentArr.length, extraCssContentArr.length)) {
                     resultArr.push(splitedCssContentArr.shift());
                     resultArr.push(extraCssContentArr.shift());
                 }

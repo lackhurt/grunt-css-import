@@ -51,7 +51,11 @@ function isRelativeUrl(url) {
  * @returns {*}
  */
 function fetchImportPath(srcFilePath, relativePath) {
-    return srcFilePath.replace(/\/[^\/]*$/, '/') + relativePath;
+    if (/\/[^\/]*$/.test(srcFilePath)) {
+        return srcFilePath.replace(/\/[^\/]*$/, '/') + relativePath;
+    } else {
+        return './' + relativePath;
+    }
 }
 
 /**
