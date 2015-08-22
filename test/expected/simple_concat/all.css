@@ -32,3 +32,24 @@ h3 {
     z-index: 10002;
     display: none;
 }
+
+
+
+.login_inputWrap{
+    background: url('/img/text.jpg') no-repeat 0px 0px;
+    display: inline-block;
+}
+
+.test {
+    background-image: url('/img/text.jpg');
+}
+
+.test-absolute-path {
+    background: url('http://test.com/test.jpg');
+
+}
+
+
+.test {
+    background-image: url('data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7');
+}

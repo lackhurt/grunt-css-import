@@ -12,4 +12,4 @@ h3 {
 }
 @import "lib/fancybox/fancybox.css";
 @import "module/module_a/module_a.css";
-
+@import "module/module_a/with_base64_data.css";

@@ -59,6 +59,15 @@ function fetchImportPath(srcFilePath, relativePath) {
 }
 
 /**
+ * 是否是base64
+ * @param url
+ * @returns {boolean}
+ */
+function isBase64DataUrl(url) {
+    return /^(data:)/.test(url) && /^[^\/]/.test(url);
+}
+
+/**
  * 替换css中的外部资源路径,目前只有background-image
  * @param content
  * @param srcFilePath
@@ -66,7 +75,9 @@ function fetchImportPath(srcFilePath, relativePath) {
  */
 function replaceExtraResourcesPath(content, srcFilePath) {
     return content.replace(BACKGROUND_REG, function(all, pre, url, sub) {
-        url = isRelativeUrl(url) ? fetchImportPath(srcFilePath, url) : url;
+        if (!isBase64DataUrl(url) && isRelativeUrl(url)) {
+            url = fetchImportPath(srcFilePath, url);
+        }
         return pre + 'url(\'' + url + '\')' + sub + ';';
     });
 }

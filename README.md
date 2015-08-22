@@ -24,11 +24,17 @@ In your project's Gruntfile, add a section named `css_import` to the data object
 
 ```js
 grunt.initConfig({
-  css_import: {
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
+    css_import: {
+        your_target: {
+            options: {
+        
+            },
+            files: {
+                'tmp/simple_concat/all.css': ['test/fixtures/style/all.css']
+            }
+        }
+    }
+}
 });
 ```
 
@@ -58,5 +64,3 @@ grunt.initConfig({
 
 The relative url of the background image will be changed automatically.
 
-## Release History
-_(Nothing yet)_
