@@ -68,7 +68,7 @@ function fetchImportPath(srcFilePath, relativePath) {
  * @param		string		path
  * @return		string		Resolved Path/Url
  */
-function resolveRelativeUrls(url, path) {
+function resolveRelativeUrls(path, url) {
 
 	var x = url.split('\/').filter(function(val) {
 		return val != '';
