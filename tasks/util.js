@@ -1,7 +1,8 @@
 var IMPORT_REG = /@import\s+[^;\n]+;/g;
 var PATH_REG = /@import\s+['"](.*)['"]/;
 var PATH_REG_WITH_URL = /@import\s+url\s*\(\s*['"](.*)['"]\s*\)/;
-var BACKGROUND_REG = /(background[^;\}]+)url\s*\(['"]?([^\)'"]*)['"]?\)([^;\n]*)[;\}]/g;
+// var BACKGROUND_REG = /(background[^;\}]+)url\s*\(['"]?([^\)'"]*)['"]?\)([^;\n]*)[;\}]/g;
+var ASSETS_URL_REG = /url\s*\(\s*['"]*(.+?)\s*['"]*\)\s*([;,])*/ig;
 
 /**
  * 分析出文件内的@import指令引入的css路径(这里直处理的相对路径的)
@@ -9,21 +10,21 @@ var BACKGROUND_REG = /(background[^;\}]+)url\s*\(['"]?([^\)'"]*)['"]?\)([^;\n]*)
  * @returns {Array}
  */
 function parseExtraCss(content) {
-    var matches = content.match(IMPORT_REG);
+	var matches = content.match(IMPORT_REG);
 
-    return matches.map(function(importStr) {
-        var matches = importStr.match(PATH_REG);
+	return matches.map(function(importStr) {
+		var matches = importStr.match(PATH_REG);
 
-        if (!matches || !matches[1]) {
-            matches = importStr.match(PATH_REG_WITH_URL);
-        }
+		if (!matches || !matches[1]) {
+			matches = importStr.match(PATH_REG_WITH_URL);
+		}
 
-        if (matches && matches[1]) {
-            return matches[1];
-        }
+		if (matches && matches[1]) {
+			return matches[1];
+		}
 
-        return null;
-    });
+		return null;
+	});
 }
 
 /**
@@ -32,7 +33,7 @@ function parseExtraCss(content) {
  * @returns {Array}
  */
 function splitCssFileByImport(content) {
-    return content.split(IMPORT_REG);
+	return content.split(IMPORT_REG);
 }
 
 /**
@@ -41,7 +42,7 @@ function splitCssFileByImport(content) {
  * @returns {boolean|*}
  */
 function isRelativeUrl(url) {
-    return !/^(http|ftp|https):\/\//.test(url) && /^[^\/]/.test(url);
+	return !/^(http|ftp|https):\/\//.test(url) && /^[^\/]/.test(url);
 }
 
 /**
@@ -51,11 +52,48 @@ function isRelativeUrl(url) {
  * @returns {*}
  */
 function fetchImportPath(srcFilePath, relativePath) {
-    if (/\/[^\/]*$/.test(srcFilePath)) {
-        return srcFilePath.replace(/\/[^\/]*$/, '/') + relativePath;
-    } else {
-        return './' + relativePath;
-    }
+	if (/\/[^\/]*$/.test(srcFilePath)) {
+		return srcFilePath.replace(/\/[^\/]*$/, '/') + relativePath;
+	} else {
+		return './' + relativePath;
+	}
+}
+
+/**
+ * Resolve paths and urls of assets (fonts, background ..etc)
+ *
+ * @method		resolveRelativeUrls
+ * @author		Sidati <contact@sidati.com>
+ * @param		string		url
+ * @param		string		path
+ * @return		string		Resolved Path/Url
+ */
+function resolveRelativeUrls(url, path) {
+
+	var x = url.split('\/').filter(function(val) {
+		return val != '';
+	});
+
+	var image = x.pop();
+	var newPath = path.split('\/').filter(function(val) {
+		return val != '';
+	})
+
+	newPath.pop();
+
+	if (x.length > 0) {
+		var i, j = newPath.length;
+
+		while (i = x.pop()) {
+			if (i != newPath[j] && i != '..' && i != '.') {
+				newPath.push(i);
+			}
+			j--;
+		}
+	}
+
+	newPath.push(image);
+	return newPath.join('/');
 }
 
 /**
@@ -64,7 +102,7 @@ function fetchImportPath(srcFilePath, relativePath) {
  * @returns {boolean}
  */
 function isBase64DataUrl(url) {
-    return /^(data:)/.test(url) && /^[^\/]/.test(url);
+	return /^(data:)/.test(url) && /^[^\/]/.test(url);
 }
 
 /**
@@ -74,18 +112,18 @@ function isBase64DataUrl(url) {
  * @returns {XML|string|void|*}
  */
 function replaceExtraResourcesPath(content, srcFilePath) {
-    return content.replace(BACKGROUND_REG, function(all, pre, url, sub) {
-        if (!isBase64DataUrl(url) && isRelativeUrl(url)) {
-            url = fetchImportPath(srcFilePath, url);
-        }
-        return pre + 'url(\'' + url + '\')' + sub + ';';
-    });
+	return content.replace(ASSETS_URL_REG, function(all, url, semicon) {
+		if (!isBase64DataUrl(url) && isRelativeUrl(url)) {
+			url = resolveRelativeUrls(srcFilePath, url);
+		}
+		return 'url(\'' + url + '\')' + (semicon || '');
+	});
 }
 
 module.exports = {
-    replaceExtraResourcesPath: replaceExtraResourcesPath,
-    parseExtraCss: parseExtraCss,
-    isRelativeUrl: isRelativeUrl,
-    fetchImportPath: fetchImportPath,
-    splitCssFileByImport: splitCssFileByImport
+	replaceExtraResourcesPath: replaceExtraResourcesPath,
+	parseExtraCss: parseExtraCss,
+	isRelativeUrl: isRelativeUrl,
+	fetchImportPath: fetchImportPath,
+	splitCssFileByImport: splitCssFileByImport
 };
