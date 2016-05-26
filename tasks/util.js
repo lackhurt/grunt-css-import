@@ -2,7 +2,9 @@ var IMPORT_REG = /@import\s+[^;\n]+;/g;
 var PATH_REG = /@import\s+['"](.*)['"]/;
 var PATH_REG_WITH_URL = /@import\s+url\s*\(\s*['"](.*)['"]\s*\)/;
 // var BACKGROUND_REG = /(background[^;\}]+)url\s*\(['"]?([^\)'"]*)['"]?\)([^;\n]*)[;\}]/g;
-var ASSETS_URL_REG = /url\s*\(\s*['"]*(.+?)\s*['"]*\)\s*([;,])*/ig;
+var ASSETS_URL_REG = /url\s*\(\s*['"]?([^\)'"]*)['"]?\)([^;\n]*\s*[;,]?)/ig;
+
+var path = require('path');
 
 /**
  * 分析出文件内的@import指令引入的css路径(这里直处理的相对路径的)
@@ -45,56 +47,19 @@ function isRelativeUrl(url) {
 	return !/^(http|ftp|https):\/\//.test(url) && /^[^\/]/.test(url);
 }
 
-/**
- * 解决相对路径问题
- * @param srcFilePath
- * @param relativePath
- * @returns {*}
- */
-function fetchImportPath(srcFilePath, relativePath) {
-	if (/\/[^\/]*$/.test(srcFilePath)) {
-		return srcFilePath.replace(/\/[^\/]*$/, '/') + relativePath;
-	} else {
-		return './' + relativePath;
-	}
-}
 
 /**
  * Resolve paths and urls of assets (fonts, background ..etc)
  *
  * @method		resolveRelativeUrls
  * @author		Sidati <contact@sidati.com>
- * @param		string		url
- * @param		string		path
+ * @param		string		srcFilePath
+ * @param		string		relativePath
  * @return		string		Resolved Path/Url
  */
-function resolveRelativeUrls(path, url) {
-
-	var x = url.split('\/').filter(function(val) {
-		return val != '';
-	});
-
-	var image = x.pop();
-	var newPath = path.split('\/').filter(function(val) {
-		return val != '';
-	})
-
-	newPath.pop();
-
-	if (x.length > 0) {
-		var i, j = newPath.length;
-
-		while (i = x.pop()) {
-			if (i != newPath[j] && i != '..' && i != '.') {
-				newPath.push(i);
-			}
-			j--;
-		}
+function resolveRelativeUrls(srcFilePath, relativePath) {
+	return path.join(path.dirname(srcFilePath), relativePath);
 	}
-
-	newPath.push(image);
-	return newPath.join('/');
-}
 
 /**
  * 是否是base64
@@ -124,6 +89,6 @@ module.exports = {
 	replaceExtraResourcesPath: replaceExtraResourcesPath,
 	parseExtraCss: parseExtraCss,
 	isRelativeUrl: isRelativeUrl,
-	fetchImportPath: fetchImportPath,
+	fetchImportPath: resolveRelativeUrls,
 	splitCssFileByImport: splitCssFileByImport
 };
