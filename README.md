@@ -1,6 +1,6 @@
 # css-import
 
-> Concat the css file by "@import". The relative url of the background image will be changed automatically.
+> Concat the css file by @import. The relative url of the background image and font face will be changed automatically.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.0`
@@ -27,7 +27,7 @@ grunt.initConfig({
     css_import: {
         your_target: {
             options: {
-        
+
             },
             files: {
                 'tmp/simple_concat/all.css': ['test/fixtures/style/all.css']
@@ -39,19 +39,24 @@ grunt.initConfig({
 ```
 
 ### Options
-There is no option yet.
+Default options is OK!
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `all_modules.css` file has the content
+
+In this example, the default options are used to do something with whatever.
+So **if** the `all_modules.css` file has the content
 
 
     @import "module_a/a.css";
     @import "module_b/b.css";
     @import "../lib/lib.css";
 
+	ul {
+	   margin: 0;
+	}
 
+**And** dest file is `dest/all.css`
 ```js
 grunt.initConfig({
   css_import: {
@@ -62,5 +67,13 @@ grunt.initConfig({
 });
 ```
 
-The relative url of the background image will be changed automatically.
+**Then** `dest/all.css`
 
+		/** module_a/a.css's content **/
+		/** module_b/b.css's content **/
+		/** ../lib/lib.css's content **/
+
+		ul {
+		   margin: 0;
+		}
+**The relative url of the background image and font face will be changed automatically.**

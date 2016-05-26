@@ -1,7 +1,7 @@
 {
   "name": "grunt-css-import",
-  "description": "Concat the css file by \"@import\". The relative url of the background image will be changed automatically.",
-  "version": "0.1.7",
+  "description": "Concat the css file by \"@import\". The relative url of the background image and font face will be changed automatically.",
+  "version": "0.1.8",
   "homepage": "https://github.com/lackhurt/grunt-css-import",
   "author": {
     "name": "lackhurt",
