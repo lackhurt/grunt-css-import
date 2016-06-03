@@ -68,15 +68,6 @@ function fetchImportPath(srcFilePath, relativePath) {
  * @param		string		path
  * @return		string		Resolved Path/Url
  */
-/**
- * Resolve paths and urls of assets (fonts, background ..etc)
- *
- * @method		resolveRelativeUrls
- * @author		Sidati <contact@sidati.com>
- * @param		string		url
- * @param		string		path
- * @return		string		Resolved Path/Url
- */
 function resolveRelativeUrls(path, url) {
 
 	var assetUrl = url.split('\/').filter(function(val) {
