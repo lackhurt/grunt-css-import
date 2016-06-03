@@ -68,25 +68,36 @@ function fetchImportPath(srcFilePath, relativePath) {
  * @param		string		path
  * @return		string		Resolved Path/Url
  */
+/**
+ * Resolve paths and urls of assets (fonts, background ..etc)
+ *
+ * @method		resolveRelativeUrls
+ * @author		Sidati <contact@sidati.com>
+ * @param		string		url
+ * @param		string		path
+ * @return		string		Resolved Path/Url
+ */
 function resolveRelativeUrls(path, url) {
 
-	var x = url.split('\/').filter(function(val) {
-		return val != '';
-	});
-
-	var image = x.pop();
-	var newPath = path.split('\/').filter(function(val) {
-		return val != '';
-	})
+	var assetUrl = url.split('\/').filter(function(val) {
+			return val != '';
+		}),
+		image = assetUrl.pop(),
+		newPath = path.split('\/').filter(function(val) {
+			return val != '';
+		});
 
 	newPath.pop();
 
-	if (x.length > 0) {
-		var i, j = newPath.length;
+	if (assetUrl.length > 0) {
 
-		while (i = x.pop()) {
-			if (i != newPath[j] && i != '..' && i != '.') {
-				newPath.push(i);
+		var i, j = assetUrl.length - 1;
+
+		while (i = assetUrl.pop()) {
+			if (i != newPath[j] || (!(j in newPath))) {
+				newPath[j] = i;
+			} else if (i == newPath[j]) {
+				newPath[j] = '..';
 			}
 			j--;
 		}
