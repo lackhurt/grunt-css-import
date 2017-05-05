@@ -12,7 +12,7 @@ var path = require('path');
  * @returns {Array}
  */
 function parseExtraCss(content) {
-	var matches = content.match(IMPORT_REG);
+	var matches = content.match(IMPORT_REG) || [];
 
 	return matches.map(function(importStr) {
 		var matches = importStr.match(PATH_REG);

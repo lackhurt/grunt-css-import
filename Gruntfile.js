@@ -36,6 +36,14 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/simple_concat/all.css': ['test/fixtures/style/all.css']
                 }
+            },
+            file_without_import: {
+                options: {
+
+                },
+                files: {
+                    'tmp/simple_concat/without_import.css': ['test/fixtures/style/without_import.css']
+                }
             }
         },
         // Unit tests.

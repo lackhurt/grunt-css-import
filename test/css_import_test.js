@@ -12,5 +12,12 @@ exports.css_import = {
         test.equal(actual, expected, 'This is a simple concat');
 
         test.done();
+    },
+    file_without_import: function(test) {
+        var actual = grunt.file.read('tmp/simple_concat/without_import.css');
+        var expected = grunt.file.read('test/expected/simple_concat/without_import.css');
+        test.equal(actual, expected, 'This is a simple concat');
+
+        test.done();
     }
 };
