@@ -1,6 +1,6 @@
 # css-import
 
-> Concat the css file by @import. The relative url of the background image and font face will be changed automatically.
+Concat the css file by @import. The relative url of the background image and font face will be changed automatically.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.0`
